@@ -1,0 +1,235 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Metaverse - Validated Enquiry Form</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #eef0ff;
+    color: #25245a;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 650px;
+    margin: 25px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px #c9c9e8;
+}
+
+.logo {
+    display: block;
+    width: 190px;
+    max-width: 100%;
+    margin: 0 auto 12px;
+}
+
+h1 {
+    text-align: center;
+    color: #5546c7;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #168b9c;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border: 1px solid #b9b9dc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 22px;
+    border: none;
+    border-radius: 8px;
+    background: #5546c7;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #168b9c;
+}
+
+#message {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#result {
+    margin-top: 18px;
+    padding: 15px;
+    background: #eeeeff;
+    border-left: 5px solid #5546c7;
+    border-radius: 7px;
+    display: none;
+}
+
+.small-note {
+    font-size: 13px;
+    color: #555577;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <img class="logo" src="metaverse logo.png" alt="Metaverse logo">
+
+    <h1>Metaverse Enquiry Form</h1>
+    <p class="subtitle">Explore Beyond Reality - Enter the Virtual World</p>
+
+    <form id="enquiryForm">
+
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your name">
+
+        <label for="phone">Mobile Number (numbers only)</label>
+        <input type="text" id="phone" placeholder="Enter 10-digit mobile number" maxlength="10">
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="name@example.com">
+
+        <label for="experience">Preferred Metaverse Experience</label>
+        <select id="experience">
+            <option value="">-- Select an experience --</option>
+            <option>Virtual Reality</option>
+            <option>Virtual Gaming</option>
+            <option>Virtual Education</option>
+            <option>Virtual Meetings</option>
+            <option>Virtual Events</option>
+        </select>
+
+        <label for="interest">Area of Interest</label>
+        <select id="interest">
+            <option value="">-- Select your interest --</option>
+            <option>Exploring Virtual Worlds</option>
+            <option>3D Virtual Environments</option>
+            <option>Digital Avatars</option>
+            <option>Online Collaboration</option>
+            <option>Metaverse Development</option>
+        </select>
+
+        <label for="details">Message / Requirement</label>
+        <textarea id="details" rows="4" placeholder="Tell us about your Metaverse interests"></textarea>
+
+        <button type="button" onclick="processForm()">Submit Enquiry</button>
+
+        <p class="small-note">All fields are required for this demonstration.</p>
+
+    </form>
+
+    <p id="message" aria-live="polite"></p>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+function processForm() {
+
+    const name = document.getElementById("fullName").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const experience = document.getElementById("experience").value;
+    const interest = document.getElementById("interest").value;
+    const details = document.getElementById("details").value.trim();
+
+    const message = document.getElementById("message");
+    const result = document.getElementById("result");
+
+    result.style.display = "none";
+    result.textContent = "";
+
+    if (
+        name === "" ||
+        phone === "" ||
+        email === "" ||
+        experience === "" ||
+        interest === "" ||
+        details === ""
+    ) {
+        message.style.color = "red";
+        message.textContent = "Please fill in all fields.";
+
+    } else if (!/^[0-9]{10}$/.test(phone)) {
+
+        message.style.color = "red";
+        message.textContent = "Mobile number must contain exactly 10 digits.";
+
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+        message.style.color = "red";
+        message.textContent = "Please enter a valid email address.";
+
+    } else {
+
+        message.style.color = "green";
+        message.textContent = "Metaverse enquiry submitted successfully!";
+
+        result.style.display = "block";
+
+        result.innerHTML =
+            "<h3>Metaverse Enquiry Summary</h3>" +
+            "<p><b>Name:</b> " + escapeHTML(name) + "</p>" +
+            "<p><b>Mobile:</b> " + escapeHTML(phone) + "</p>" +
+            "<p><b>Email:</b> " + escapeHTML(email) + "</p>" +
+            "<p><b>Preferred Experience:</b> " + escapeHTML(experience) + "</p>" +
+            "<p><b>Area of Interest:</b> " + escapeHTML(interest) + "</p>" +
+            "<p><b>Message:</b> " + escapeHTML(details) + "</p>";
+    }
+}
+
+function escapeHTML(value) {
+
+    return value.replace(/[&<>"']/g, function (character) {
+
+        return ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character];
+
+    });
+}
+
+</script>
+
+</body>
+</html>
+```
